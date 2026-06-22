@@ -1,0 +1,73 @@
+package com.example.menu_service.config;
+
+import io.swagger.v3.oas.models.OpenAPI;
+
+import io.swagger.v3.oas.models.info.Info;
+
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+
+import io.swagger.v3.oas.models.security.SecurityScheme;
+
+import org.springframework.context.annotation.Bean;
+
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class SwaggerConfig {
+
+    @Bean
+    public OpenAPI customOpenAPI() {
+
+        // Security Scheme Name
+        final String securitySchemeName = "bearerAuth";
+
+        return new OpenAPI()
+
+                // Swagger Info
+                .info(
+                        new Info()
+
+                                .title(
+                                        "Menu Service APIs"
+                                )
+
+                                .version("1.0")
+
+                                .description(
+                                        "Enterprise Grocery Menu Service APIs"
+                                )
+                )
+
+                // Add JWT Security
+                .addSecurityItem(
+                        new SecurityRequirement()
+
+                                .addList(
+                                        securitySchemeName
+                                )
+                )
+
+                // Configure Bearer Token
+                .schemaRequirement(
+                        securitySchemeName,
+
+                        new SecurityScheme()
+
+                                .name(
+                                        securitySchemeName
+                                )
+
+                                .type(
+                                        SecurityScheme.Type.HTTP
+                                )
+
+                                .scheme(
+                                        "bearer"
+                                )
+
+                                .bearerFormat(
+                                        "JWT"
+                                )
+                );
+    }
+}
